@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:RecycleElementBug"
+             x:Class="RecycleElementBug.MainPage"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Content>
+        <Grid
+            RowDefinitions="60, *">
+            <Grid
+                ColumnDefinitions="*, *, *"
+                BackgroundColor="AliceBlue"
+                ColumnSpacing="10"
+                Margin="10">
+
+                <Button
+                    Grid.Column="0" 
+                    Text="Previous"
+                    Command="{Binding PreviousCommand}"/>
+
+                <Button
+                    Grid.Column="1"
+                    Text="Current"
+                    Command="{Binding CurrentCommand}"/>
+
+                <Button
+                    Grid.Column="2"
+                    Text="Next"
+                    Command="{Binding NextCommand}"/>
+
+            </Grid>
+            <ListView
+                Grid.Row="1"
+                x:Name="listView"
+                HasUnevenRows="True"
+                CachingStrategy="RecycleElement"
+                SeparatorVisibility="None"
+                ItemsSource="{Binding ItemsList}"
+                ItemTemplate="{StaticResource itemDataTemplateSelector}"
+                Margin="{OnPlatform Android='0', iOS='0, 0, 0, 80'}">
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Alarm -->
+            <DataTemplate
+                x:Key="alarmTemplate">
+                <ViewCell>
+                    <Label
+                        TextColor="Red"
+                        Text="{Binding ALARM_NAME}" />
+                </ViewCell>
+            </DataTemplate>
+            <!-- Regular -->
+            <DataTemplate
+                x:Key="regularTemplate">
+                <ViewCell>
+                    <Label
+                        TextColor="Green"
+                        Text="{Binding REGULAR_NAME}" />
+                </ViewCell>
+            </DataTemplate>
+            <!-- Warning -->
+            <DataTemplate
+                x:Key="warningTemplate">
+                <ViewCell>
+                    <Label
+                        TextColor="DarkOrange"
+                        Text="{Binding WARNING_NAME}" />
+                </ViewCell>
+            </DataTemplate>
+            <!-- Info -->
+            <DataTemplate
+                x:Key="infoTemplate">
+                <ViewCell>
+                    <Label
+                        TextColor="Blue"
+                        Text="{Binding INFO_NAME}" />
+                </ViewCell>
+            </DataTemplate>
+
+            <local:ItemDataTemplateSelector
+                x:Key="itemDataTemplateSelector"
+                AlarmTemplate="{StaticResource alarmTemplate}"
+                RegularTemplate="{StaticResource regularTemplate}"
+                WarningTemplate="{StaticResource warningTemplate}"
+                InfoTemplate="{StaticResource infoTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+</ContentPage>
